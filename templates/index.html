@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" >
+<title>Pinpoint - Start Sharing.</title>
+<link rel="shortcut icon" href="styles/favicon.ico" type="image/x-icon">
+<meta name="description" content="Pinpoint helps you to geotag your photos,sort them based on locations and share them.">
+<meta name="keywords" content="picture,share,google,maps,api">
+<link rel='stylesheet' href='styles/style.css' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=467649259969800";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<header>
+	<h1><a href="/">Pinpoint</a></h1>
+</header>
+<div id="box">
+	<div class="left">
+	<h2>Welcome to Pinpoint</h2>
+	<p>Pinpoint helps you to geotag your photos,sort them based on locations and share them.
+	<br>Also search for the places you want to visit, read reviews plus you get to write reviews of the places you visited.<br>All totally FREE!!!</p><br><br>
+	<a href="{{ login }}"><button class="signin"><img src="styles/G+.png" style="float:left;width:34px;"><span style="line-height:2.4em;float:left;padding-left:4px;padding-right:4px;">Sign in with Google</span></button></a>
+	</div>
+	<div class="right">
+    <img src="styles/ball.png">
+	</div>
+	<div class="fb-like" data-href="https://www.facebook.com/pinpointOfficial" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+	
+
+
+</div>
+
+
+</body>
+</html>

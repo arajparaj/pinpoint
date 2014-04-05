@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta content="charset=utf-8">
+	<title>Pinpoint - Start Sharing.</title>
+	<link rel="shortcut icon" href="styles/favicon.ico" type="image/x-icon">
+	<meta name="description" content="Pinpoint helps you to geotag your photos,sort them based on locations and share them.">
+	<meta name="keywords" content="picture,share,google,maps,api">
+	<link rel="stylesheet" href="styles/flexslider.css" type="text/css" media="screen" >
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script src="help/modernizr.js"></script>
+	<script src="help/jquery.flexslider-min.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+	<style type="text/css">
+			.bubble-list {
+				font:1em "Trebuchet MS";
+				padding-top:20px;
+  				width:77%;
+				margin: 0 auto;
+				min-width: 535px;
+			}
+			.clearfix:after {
+				visibility:hidden;
+				display:block;
+				font-size:0;
+				content: ".";
+				clear:both;
+				height:0;
+				line-height:
+			}
+			.clearfix {
+				display: inline-block;
+			}
+			* html .clearfix {
+				height: 1%;
+			}
+			.bubble-list .bubble img {
+				float:left;
+				width:70px;
+				height:70px;
+				border:3px solid #ffffff;
+				border-radius:10px
+
+			}
+			.bubble-content {
+				position:relative;
+				float:left;
+				margin-left:12px;
+				width:400px;
+				padding:0px 20px;
+				border-radius:10px;
+				background-color:#FFFFFF;
+				box-shadow:1px 1px 5px rgba(0,0,0,.2);
+			}
+
+			.bubble {
+				margin-top:20px;
+			}
+			.point {
+				border-top:10px solid transparent;
+				border-bottom:10px solid transparent;
+				border-right: 12px solid #FFF;
+				position:absolute;
+				left:-10px;
+				top:12px;
+			} 
+			form{
+				width: 77%;
+				margin: 0 auto;
+    margin-top: 29px; 
+    min-width: 410px;
+			}
+			#sect {
+				min-width: 300px;
+			}
+			input, textarea {  
+
+    padding: 9px;  
+    border: solid 1px #E5E5E5;  
+    outline: 0;  
+    font: normal 13px/100% Verdana, Tahoma, sans-serif;  
+    width: 200px;  
+    background: #FFFFFF url('bg_form.png') left top repeat-x;  
+    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));  
+    background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);  
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
+    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
+    }  
+  
+textarea {   
+    width: 90%;  
+    height: 150px;  
+    line-height: 150%;
+    margin-top: 20px;  
+    }  
+  
+input:hover, textarea:hover,  
+input:focus, textarea:focus {   
+    border-color: #C9C9C9;   
+    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;  
+    }  
+  
+.form label {   
+    margin-left: 10px;   
+    color: #999999;  
+    }  
+  
+.submit input {  
+    -webkit-box-shadow:rgba(0, 0, 0, 0.0980392) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px inset;
+  border:1px solid;
+  border-radius:3px;
+  box-shadow:rgba(0, 0, 0, 0.0980392) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px inset;
+  color:#444444;
+  margin-bottom:20px;
+  padding:10px;
+  position:relative;
+  background-color:#D2F7AD;
+  border-color:#AEDB2E;
+  width: 100px;
+  margin-top: 19px;
+  cursor: pointer; 
+    }  
+		</style>
+    
+	<!-- Hook up the FlexSlider -->
+	<script type="text/javascript">
+		$(window).load(function() {
+			$('.flexslider').flexslider({
+			 animation: 'slide',
+			 controlsContainer: '.flex-container'
+			});
+		});
+	</script>
+	
+</head>
+<body>
+	<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=467649259969800";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+	<header>
+	<h1><a href="/">Pinpoint</a></h1><div id="logout_button"><a href="{{ logout }}">Sign Out</a></div>
+</header>
+<div id="main">
+	<div id="container" style="overflow:hidden;min-width:535px;">
+		
+		<!--=============================
+		Markup for FADE animation
+		=================================
+		<div class="flexslider">
+	    <ul class="slides">
+	    	<li>
+	    		<img src="styles/inacup_samoa.jpg" >
+	    		<p class="flex-caption">Captions and cupcakes. Winning combination.</p>
+	    	</li>
+	    	<li>
+	    		<a href="#"><img src="styles/inacup_pumpkin.jpg" ></a>
+	    		<p class="flex-caption">This image is wrapped in a link!</p>
+	    	</li>
+	    	<li>
+	    		<img src="styles/inacup_donut.jpg" >
+	    	</li>
+	    	<li>
+	    		<img src="styles/inacup_vanilla.jpg" >
+	    	</li>
+	    </ul>
+	  </div> -->
+
+		<!--============================
+		Markup for SLIDE animation
+		You need to add an extra container element for the overflow: hidden property on the slider
+		
+		Update your flexslider() function with the following properties:
+		
+		<script type="text/javascript">
+			$(window).load(function() {
+				$('.flexslider').flexslider({
+				  animation: "slide",
+				  controlsContainer: ".flex-container"
+			  });
+			});
+		</script>
+		================================= -->
+		<h2 style="text-align:center;padding-top:10px;">Location&nbsp;:&nbsp;<span style="font-weight:normal;">{% for wrapper in wrappers|slice:":1" %}{{wrapper.pname}}{% endfor %}</span></h2>
+		<div class="flex-container">
+			<div class="flexslider">
+		    <ul class="slides" style="text-align:center;">
+		    	{% for wrapper in wrappers %}
+		    	<li>
+
+		    		<img src="/serve/{{wrapper.blob.key}}" ><br>
+		    		<span class="con">Uploaded by {{wrapper.user.nickname}}</span>
+		    	</li>
+		    	{% endfor %}
+		    </ul>
+		  </div>
+	 	</div>
+		
+	</div>
+	<form class="form" method="POST" id="comm">  
+    <span class="com">&nbsp;Add your Review</span><br>
+    <p class="text">  
+        <textarea name="text" id="text"></textarea>  
+    </p>  
+  
+    <p class="submit">  
+        <input type="button" value="Post" id="subbut">  
+    </p>  
+  
+</form> 
+<div id="sect">
+{% for comment in comments %}
+<div class="comment" style=""><span class="byu">{{comment.user.nickname}}</span><span class="date">({{comment.date}})</span><br><p class="ori">{{comment.comm}}</p></div>
+{% endfor %}
+
+
+</div>
+
+ </div>
+ <footer></footer>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $('#subbut').click(function(){
+    	var text=$('#text').val();
+    	if(text == ""){alert('field empty');return false;}
+		var data={"lat":"{{latit}}","lon":"{{longi}}","text":text};
+        $.ajax({
+            url: '/comment',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(data,status){
+                $('#sect').prepend('<div class="comment" style="background-color:;"><span class="byu">{{usname}}</span><span class="date">&nbsp;(Today)</span><br><p class="ori">'+text+'</p></div>');
+            }
+       });
+       return false;
+    });
+});
+</script> 
+</body>
+</html>

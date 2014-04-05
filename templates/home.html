@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" >
+<title>Pinpoint - Start Sharing.</title>
+<link rel="shortcut icon" href="styles/favicon.ico" type="image/x-icon">
+<meta name="description" content="Pinpoint helps you to geotag your photos,sort them based on locations and share them.">
+<meta name="keywords" content="picture,share,google,maps,api">
+<link rel='stylesheet' href='styles/home_style.css' type='text/css'>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAtPwn7sSpr5oCK0IaVzN4oUWoEccIPr4k&sensor=true&libraries=places"></script>
+<script src="help/jquery.min.js"></script>
+<script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+<script src="help/jquery.validate.min.js"></script>
+<script src="help/additional-methods.js"></script>
+<script src="help/oms.min.js"></script>
+<script type="text/javascript">
+var geocoder;
+var map;
+var marker_locations = [];
+
+function initialize() {
+    geocoder = new google.maps.Geocoder();
+    
+    var mapOptions = {
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+    map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+    // Try HTML5 geolocation
+    if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+            var infowindow = new google.maps.InfoWindow({
+            map: map,
+            position: pos,
+            content:'You are here'
+            });
+
+            map.setCenter(pos);
+          });
+      } else {
+    // Browser doesn't support Geolocation
+    
+        handleNoGeolocation(false);
+      }
+function handleNoGeolocation(errorFlag) {
+
+      var options = {
+        map: map,
+        position: new google.maps.LatLng(geoplugin_latitude(), geoplugin_longitude())
+      };
+
+      var infowindow = new google.maps.InfoWindow(options);
+      map.setCenter(options.position);
+    }
+
+    var markers = [{% for wrapper in wrappers %}{lat:{{wrapper.lat}}, lng:{{wrapper.lon}}, name:"{{wrapper.user.nickname}}",img:"/serve/{{wrapper.blob.key}}",pla:"{{wrapper.pname}}" },{% endfor %}];
+    
+    
+    
+
+        
+    
+
+    
+    // Create the markers ad infowindows.
+    for (index in markers) addMarker(markers[index]);
+    function addMarker(data) {
+      var place = data.pla;
+      var array= place.split(",",4);
+
+      if(!markerAtPoint(data)){
+      // Create the marker
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(data.lat, data.lng),
+        map: map,
+        title: array[0]
+      });
+    
+      // Create the infowindow with two DIV placeholders
+      // One for a text string, the other for the StreetView panorama.
+      var content = document.createElement("DIV");
+      var title = document.createElement("DIV");
+      title.innerHTML = '<b>'+array[0]+'<br>'+array[1]+'</b>';
+      content.appendChild(title);
+      var streetview = document.createElement("DIV");
+      streetview.style.width = "133px";
+      streetview.style.height = "100px";
+      streetview.style.overflow = "hidden";
+       /*     var imdata = '<div class="ppy" id="ID_CAN_BE_USED_TO_START_POPEYE_SCRIPT"><ul class="ppy-imglist"><li><a href="http://farm4.static.flickr.com/3357/3633927491_d8864d5235.jpg"><img src="http://farm4.static.flickr.com/3357/3633927491_d8864d5235.jpg" alt="CAPTION_STRING" /></a></li><li><a href="http://farm4.static.flickr.com/3335/3198858060_365ce0ba53.jpg"><img src="http://farm4.static.flickr.com/3335/3198858060_365ce0ba53.jpg" alt="CAPTION_STRING" /></a></li></ul><div class="ppy-outer"><div class="ppy-stage"><div class="ppy-counter"><strong class="ppy-current"></strong> / <strong class="ppy-total"></strong></div></div><div class="ppy-nav"><a class="ppy-next" title="Next image">Next image</a><a class="ppy-prev" title="Previous image">Previous image</a><a class="ppy-switch-compact"></div>title="Close">Close</a></div></div>'; */
+                    
+                
+      streetview.innerHTML = "<a href=pic?la="+data.lat+"&ln="+data.lng+"><img src='"+data.img+"' style='width:100%;height:100%;margin-top:1px;'></a>";
+      
+
+      content.appendChild(streetview);
+      var infowindow = new google.maps.InfoWindow({
+        content: content
+      });
+
+      // Open the infowindow on marker click
+      google.maps.event.addListener(marker, "click", function() {
+        infowindow.open(map, marker);
+      });
+      infowindow.open(map, marker);
+      marker_locations.push(data);}
+
+
+    }
+    function markerAtPoint(latlng) {
+      for (var i = 0; i < marker_locations.length; ++i) {
+      if ((marker_locations[i].lat==latlng.lat) && (marker_locations[i].lng==latlng.lng)) return true;
+        }
+      return false;
+          }
+
+    // Zoom and center the map to fit the markers
+    // This logic could be conbined with the marker creation.
+    // Just keeping it separate for code clarity.
+    var bounds = new google.maps.LatLngBounds();
+    for (index in markers) {
+      var data = markers[index];
+      bounds.extend(new google.maps.LatLng(data.lat, data.lng));
+    }
+    map.fitBounds(bounds);
+  
+
+var input = /** @type {HTMLInputElement} */(document.getElementById('address'));
+var input1 = /** @type {HTMLInputElement} */(document.getElementById('pac-input'));
+var types = document.getElementById('type-selector');
+map.controls[google.maps.ControlPosition.TOP_LEFT].push(input1);
+map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+var autocomplete1 = new google.maps.places.Autocomplete(input);
+var autocomplete = new google.maps.places.Autocomplete(input1);
+
+autocomplete.bindTo('bounds', map);
+
+var infowindow = new google.maps.InfoWindow();
+var marker1 = new google.maps.Marker({
+     map: map
+      });
+
+google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    marker1.setVisible(false);
+    input.className = '';
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      // Inform the user that the place was not found and return.
+      input.className = 'notfound';
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+
+    }
+    marker1.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker1.setPosition(place.geometry.location);
+    marker1.setVisible(true);
+
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+    infowindow.setContent('<div style="z-index:111;"><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker1);
+  });
+google.maps.event.addListener(autocomplete1, 'place_changed', function() {
+    var place = autocomplete1.getPlace();
+    var pname = (place.formatted_address);
+    var lat = (place.geometry.location).lat();
+    var longi = (place.geometry.location).lng();
+    document.getElementById('lati').value = lat;
+    document.getElementById('longi').value = longi;
+    document.getElementById('pname').value = pname;
+    document.getElementById("close").disabled = false;
+  });
+
+
+  // Sets a listener on a radio button to change the filter type on Places
+  // Autocomplete.
+function setupClickListener(id, types) {
+    var radioButton = document.getElementById(id);
+    google.maps.event.addDomListener(radioButton, 'click', function() {
+      autocomplete.setTypes(types);
+    });
+  }
+
+  setupClickListener('changetype-all', []);
+  setupClickListener('changetype-establishment', ['establishment']);
+  setupClickListener('changetype-geocode', ['geocode']);
+}
+
+
+function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var lat = (results[0].geometry.location).lat();
+        var longi = (results[0].geometry.location).lng();
+        document.getElementById('lati').value = lat;
+         document.getElementById('longi').value = longi;
+         document.getElementById("close").disabled = false;
+      } 
+    });
+  }
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+    
+</head>
+<body>
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=467649259969800";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<header>
+  <span class="button">Upload your image</span>
+	<h1><a href="/">Pinpoint</a></h1><div id="logout_button"><a href="{{ logout }}">Sign Out</a></div>
+</header>
+<div id="neu" style="display:none;">
+
+    <div id="type-selector" class="controls">
+
+      
+      <input id="pac-input" class="controls" type="text"
+        placeholder="Enter a location">
+        <div id="ins">
+      <input type="radio" name="type" id="changetype-all" checked="checked">
+      <label for="changetype-all">All</label>
+
+      <input type="radio" name="type" id="changetype-establishment">
+      <label for="changetype-establishment">Establishments</label>
+
+      <input type="radio" name="type" id="changetype-geocode">
+      <label for="changetype-geocode">Geocodes</label>
+    </div><br>
+    <div style="margin-left:-88%;">
+    <div class="fb-like" data-href="https://www.facebook.com/pinpointOfficial" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+  </div>
+    </div>
+
+  </div>
+<div id="map-canvas"></div>
+
+    <div class="popup" style="z-index:11;"> 
+
+      <div id="search">
+        <h3>Upload a picture</h3>
+        <span id='cl' style="color:red;">close</span>
+    <div id="sea">
+      <form id="form" action="{{upload_url}}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" class="required" accept="image/*">
+      <input name="add" id="address" type="textbox" placeholder="Where was this taken?" class="required">
+      <input type="hidden" id="lati" value="" name="lat">
+      <input type="hidden" id="longi" value="" name="lng">
+      <input type="hidden" id="pname" value="" name="pame">
+    </div>
+    <input type="submit" id="close" value="Upload" disabled>
+     </form>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+  $("#form").validate(function(){$('.popup').removeClass('dis');});
+});
+
+    $('.button').click(function(e){
+    $('.popup').addClass('dis');
+});
+
+$(document).keyup(function(e){
+    if(e.keyCode == 27)
+    {
+        $('.popup').removeClass('dis');
+        $('input[name=add]').val('');
+        $('input[name=file]').val('');
+        $("input#close").prop('disabled', true);
+    }
+});
+$("#cl").click(function(){
+        $('.popup').removeClass('dis');
+        $('input[name=add]').val('');
+        $('input[name=file]').val('');
+        $("input#close").prop('disabled', true);
+});
+</script>
+</body>
+</html>

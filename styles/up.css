@@ -1,0 +1,42 @@
+@font-face {
+		font-family: "Dekers";
+		src: url('Dekers.ttf') format("truetype");
+	}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+html,body {
+	margin: 0;
+	padding: 0;
+}
+body {
+background: #F6F8F9;
+background-image: -webkit-gradient(radial,center center,0,center center,460,from(#165387),to(#142849));
+background-image: -webkit-radial-gradient(circle,#165387,#142849);
+background-image: -moz-radial-gradient(circle,#165387,#142849);
+background-image: -o-radial-gradient(circle,#165387,#142849);
+background-repeat: no-repeat;
+height: 100%;
+overflow-y:hidden; 
+}
+header {
+  background:#000;
+  font-family:Dekers, sans-serif;
+  height:80px;
+  width:100%;
+  z-index:99999;
+     }
+h1 {
+	text-align: center;
+	padding: 15px;
+	color: #fff;
+	transition: color .5s;
+    -o-transition: color .5s;
+    -moz-transition: color .5s;
+    -webkit-transition: color .5s;
+}
+h1:hover {
+	color: #00a2ff;
+}

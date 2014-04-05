@@ -1,0 +1,51 @@
+@font-face {
+		font-family: "Dekers";
+		src: url('Dekers.ttf') format("truetype");
+	}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+html,body {
+	margin: 0;
+	padding: 0;
+}
+body{
+	overflow-y:hidden; 
+}
+header {
+  background:#000;
+  font-family:Dekers, sans-serif;
+  height:80px;
+  width:100%;
+  z-index:99999;
+     }
+h1 {
+	text-align: center;
+	padding: 15px;
+	color: #fff;
+	transition: color .5s;
+    -o-transition: color .5s;
+    -moz-transition: color .5s;
+    -webkit-transition: color .5s;
+}
+h1:hover {
+	color: #00a2ff;
+}
+#logout_button {
+	float: right;
+	margin-top:-42px;
+	margin-right: 60px;
+
+}
+#logout_button a {
+	text-decoration: none;
+	color: rgba(255,255,255,1);
+}
+#logout_button a:first-child {
+	padding-right: 45px;
+}
+#logout_button a:hover {
+	text-decoration: underline;
+}

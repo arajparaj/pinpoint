@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" >
+<title></title>
+<link rel='stylesheet' href='styles/up_style.css' type='text/css'>
+<script src="help/jquery.min.js"></script>
+<script src="help/jquery.validate.min.js"></script>
+<script src="help/additional-methods.js"></script>
+
+
+	</head>
+	<body>
+		<body>
+<header>
+	<h1>Pinpoint</h1><div id="logout_button"><a href="/newupload">Upload</a><a href="{{ logout }}">Sign Out</a></div>
+</header>
+				{% if user %}
+			Currently logged in as {{user.email}} - <a href="/account">log out</a>
+
+			<h3>Upload</h3>
+			<form id="form" action="{{upload_url}}" method="POST" enctype="multipart/form-data">
+				<input type="file" name="file" class="required" accept="image/*">
+				<input type="submit" name="submit" value="Submit">
+			</form>
+		{% else %}
+			Not logged in - <a href="/account">log in</a>
+		{% endif %}
+		<h3>Files</h3>
+		<ul>
+		{% if not wrappers %}
+			No files have been uploaded
+		{% endif %}
+		{% for wrapper in wrappers %}
+			<li><a href="/serve/{{wrapper.blob.key}}">{{wrapper.blob.filename}}</a> ({{wrapper.blob.size}})
+			<small>uploaded {{wrapper.date|date:"D d M Y g:i:s A"}} by
+			{% ifequal wrapper.user user %}
+				you - <form action="/delete" method="post">
+					<input type="hidden" name="key" value="{{wrapper.key}}">
+					<input type="submit" value="Delete">
+			{% else %}
+				{{wrapper.user.email}}
+			{% endifequal %}</small>
+			<br>
+			{{wrapper.lat}} <br> {{wrapper.lon}}
+			</li>
+		{% endfor %}
+		</ul>
+		
+
+		</form>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#form").validate();
+});
+</script>
+	</body>
+</html>
